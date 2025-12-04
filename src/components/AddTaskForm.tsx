@@ -1,7 +1,9 @@
 import { useState } from 'react';
+import { format } from 'date-fns';
 import { Priority, Category, CATEGORIES } from '@/types/task';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { Calendar } from '@/components/ui/calendar';
 import {
   Select,
   SelectContent,
@@ -9,23 +11,31 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Plus } from 'lucide-react';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
+import { Plus, CalendarIcon } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 interface AddTaskFormProps {
-  onAdd: (title: string, priority: Priority, category: Category) => void;
+  onAdd: (title: string, priority: Priority, category: Category, dueDate?: Date) => void;
 }
 
 export function AddTaskForm({ onAdd }: AddTaskFormProps) {
   const [title, setTitle] = useState('');
   const [priority, setPriority] = useState<Priority>('medium');
   const [category, setCategory] = useState<Category>('personal');
+  const [dueDate, setDueDate] = useState<Date | undefined>();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!title.trim()) return;
     
-    onAdd(title.trim(), priority, category);
+    onAdd(title.trim(), priority, category, dueDate);
     setTitle('');
+    setDueDate(undefined);
   };
 
   return (
@@ -60,6 +70,31 @@ export function AddTaskForm({ onAdd }: AddTaskFormProps) {
           <SelectItem value="high">High</SelectItem>
         </SelectContent>
       </Select>
+
+      <Popover>
+        <PopoverTrigger asChild>
+          <Button
+            type="button"
+            variant="outline"
+            className={cn(
+              'w-36 justify-start text-left font-normal',
+              !dueDate && 'text-muted-foreground'
+            )}
+          >
+            <CalendarIcon className="mr-2 h-4 w-4" />
+            {dueDate ? format(dueDate, 'MMM d') : 'Due date'}
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="w-auto p-0" align="start">
+          <Calendar
+            mode="single"
+            selected={dueDate}
+            onSelect={setDueDate}
+            initialFocus
+            className="p-3 pointer-events-auto"
+          />
+        </PopoverContent>
+      </Popover>
       
       <Button type="submit" disabled={!title.trim()}>
         <Plus className="h-4 w-4 mr-2" />
