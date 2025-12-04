@@ -1,11 +1,35 @@
+import { useState, useMemo } from 'react';
 import { useTasks } from '@/hooks/useTasks';
 import { AddTaskForm } from '@/components/AddTaskForm';
 import { TaskList } from '@/components/TaskList';
 import { ProgressStats } from '@/components/ProgressStats';
+import { CategoryFilter } from '@/components/CategoryFilter';
 import { CheckSquare } from 'lucide-react';
+import { Category, CATEGORIES } from '@/types/task';
 
 const Index = () => {
   const { tasks, addTask, toggleTask, deleteTask } = useTasks();
+  const [selectedCategory, setSelectedCategory] = useState<Category | 'all'>('all');
+
+  const filteredTasks = useMemo(() => {
+    if (selectedCategory === 'all') return tasks;
+    return tasks.filter((task) => task.category === selectedCategory);
+  }, [tasks, selectedCategory]);
+
+  const categoryCounts = useMemo(() => {
+    const counts: Record<Category | 'all', number> = {
+      all: tasks.length,
+      work: 0,
+      personal: 0,
+      shopping: 0,
+      health: 0,
+      other: 0,
+    };
+    tasks.forEach((task) => {
+      counts[task.category]++;
+    });
+    return counts;
+  }, [tasks]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -27,8 +51,15 @@ const Index = () => {
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-6">
             <AddTaskForm onAdd={addTask} />
+            
+            <CategoryFilter
+              selected={selectedCategory}
+              onChange={setSelectedCategory}
+              counts={categoryCounts}
+            />
+            
             <TaskList
-              tasks={tasks}
+              tasks={filteredTasks}
               onToggle={toggleTask}
               onDelete={deleteTask}
             />

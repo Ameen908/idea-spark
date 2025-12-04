@@ -1,4 +1,4 @@
-import { Task, Priority } from '@/types/task';
+import { Task, Priority, CATEGORIES } from '@/types/task';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Button } from '@/components/ui/button';
 import { Trash2 } from 'lucide-react';
@@ -11,9 +11,9 @@ interface TaskItemProps {
 }
 
 const priorityColors: Record<Priority, string> = {
-  low: 'bg-chart-3/20 border-chart-3',
-  medium: 'bg-chart-2/20 border-chart-2',
-  high: 'bg-destructive/20 border-destructive',
+  low: 'bg-muted/50 border-muted text-muted-foreground',
+  medium: 'bg-chart-2/20 border-chart-2 text-chart-2',
+  high: 'bg-destructive/20 border-destructive text-destructive',
 };
 
 const priorityLabels: Record<Priority, string> = {
@@ -23,6 +23,8 @@ const priorityLabels: Record<Priority, string> = {
 };
 
 export function TaskItem({ task, onToggle, onDelete }: TaskItemProps) {
+  const categoryInfo = CATEGORIES.find((c) => c.value === task.category);
+
   return (
     <div
       className={cn(
@@ -46,6 +48,15 @@ export function TaskItem({ task, onToggle, onDelete }: TaskItemProps) {
           {task.title}
         </p>
       </div>
+      
+      <span
+        className={cn(
+          'rounded-full border px-2.5 py-0.5 text-xs font-medium',
+          categoryInfo?.color
+        )}
+      >
+        {categoryInfo?.label}
+      </span>
       
       <span
         className={cn(
