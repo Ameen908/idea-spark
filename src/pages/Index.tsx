@@ -9,24 +9,30 @@ import { CategoryFilter } from '@/components/CategoryFilter';
 import { Button } from '@/components/ui/button';
 import { CheckSquare, LogOut, Loader2 } from 'lucide-react';
 import { Category } from '@/types/task';
-
 const Index = () => {
-  const { tasks, loading, addTask, toggleTask, deleteTask } = useTasks();
-  const { user, loading: authLoading, signOut } = useAuth();
+  const {
+    tasks,
+    loading,
+    addTask,
+    toggleTask,
+    deleteTask
+  } = useTasks();
+  const {
+    user,
+    loading: authLoading,
+    signOut
+  } = useAuth();
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState<Category | 'all'>('all');
-
   useEffect(() => {
     if (!authLoading && !user) {
       navigate('/auth');
     }
   }, [user, authLoading, navigate]);
-
   const filteredTasks = useMemo(() => {
     if (selectedCategory === 'all') return tasks;
-    return tasks.filter((task) => task.category === selectedCategory);
+    return tasks.filter(task => task.category === selectedCategory);
   }, [tasks, selectedCategory]);
-
   const categoryCounts = useMemo(() => {
     const counts: Record<Category | 'all', number> = {
       all: tasks.length,
@@ -34,26 +40,20 @@ const Index = () => {
       personal: 0,
       shopping: 0,
       health: 0,
-      other: 0,
+      other: 0
     };
-    tasks.forEach((task) => {
+    tasks.forEach(task => {
       counts[task.category]++;
     });
     return counts;
   }, [tasks]);
-
   if (authLoading || loading) {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
+    return <div className="min-h-screen bg-background flex items-center justify-center">
         <Loader2 className="h-8 w-8 animate-spin text-primary" />
-      </div>
-    );
+      </div>;
   }
-
   if (!user) return null;
-
-  return (
-    <div className="min-h-screen bg-background">
+  return <div className="min-h-screen bg-background">
       <div className="container max-w-4xl py-8 px-4">
         {/* Header */}
         <header className="mb-8">
@@ -62,7 +62,7 @@ const Index = () => {
               <div className="rounded-lg bg-primary p-2">
                 <CheckSquare className="h-6 w-6 text-primary-foreground" />
               </div>
-              <h1 className="text-3xl font-bold text-foreground">TaskFlow</h1>
+              <h1 className="text-3xl font-bold text-foreground">Maestro TaskFlow</h1>
             </div>
             <Button variant="ghost" size="sm" onClick={signOut}>
               <LogOut className="h-4 w-4 mr-2" />
@@ -79,17 +79,9 @@ const Index = () => {
           <div className="lg:col-span-2 space-y-6">
             <AddTaskForm onAdd={addTask} />
             
-            <CategoryFilter
-              selected={selectedCategory}
-              onChange={setSelectedCategory}
-              counts={categoryCounts}
-            />
+            <CategoryFilter selected={selectedCategory} onChange={setSelectedCategory} counts={categoryCounts} />
             
-            <TaskList
-              tasks={filteredTasks}
-              onToggle={toggleTask}
-              onDelete={deleteTask}
-            />
+            <TaskList tasks={filteredTasks} onToggle={toggleTask} onDelete={deleteTask} />
           </div>
 
           {/* Sidebar */}
@@ -98,8 +90,6 @@ const Index = () => {
           </div>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default Index;
