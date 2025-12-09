@@ -50,24 +50,26 @@ const Index = () => {
   }, [tasks]);
   if (authLoading || loading) {
     return <div className="min-h-screen bg-background flex items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        <div className="p-4 rounded-2xl glass animate-glow-pulse">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        </div>
       </div>;
   }
   if (!user) return null;
   return <div className="min-h-screen bg-background">
       <div className="container max-w-4xl py-8 px-4">
         {/* Header */}
-        <header className="mb-8">
+        <header className="mb-8 animate-slide-down">
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-3">
-              <div className="rounded-lg bg-primary p-2">
-                <CheckSquare className="h-6 w-6 text-primary-foreground" />
+              <div className="rounded-2xl glass-icon p-2.5 animate-float">
+                <CheckSquare className="h-6 w-6 text-primary" />
               </div>
               <h1 className="text-3xl font-bold text-foreground">Maestro TaskFlow</h1>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 glass-pill rounded-xl px-2 py-1">
               <ThemeToggle />
-              <Button variant="ghost" size="sm" onClick={signOut}>
+              <Button variant="ghost" size="sm" onClick={signOut} className="hover:bg-background/50">
                 <LogOut className="h-4 w-4 mr-2" />
                 Sign Out
               </Button>

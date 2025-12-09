@@ -166,9 +166,9 @@ All colors MUST be HSL.
   *,
   *::before,
   *::after {
-    transition-property: background-color, border-color, color, fill, stroke, box-shadow;
+    transition-property: background-color, border-color, color, fill, stroke, box-shadow, opacity, transform;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    transition-duration: 200ms;
+    transition-duration: 300ms;
   }
 
   /* Disable theme transitions on elements with explicit transitions */
@@ -177,5 +177,28 @@ All colors MUST be HSL.
   [data-radix-popper-content-wrapper],
   [data-radix-popper-content-wrapper] * {
     transition-property: none !important;
+  }
+}
+
+/* iOS-style Glassmorphism utilities */
+@layer components {
+  .glass {
+    @apply bg-card/70 backdrop-blur-xl border border-border/50 shadow-lg;
+  }
+
+  .glass-subtle {
+    @apply bg-card/50 backdrop-blur-md border border-border/30;
+  }
+
+  .glass-strong {
+    @apply bg-card/80 backdrop-blur-2xl border border-border/60 shadow-xl;
+  }
+
+  .glass-pill {
+    @apply bg-background/60 backdrop-blur-lg border border-border/40 shadow-sm;
+  }
+
+  .glass-icon {
+    @apply bg-primary/10 backdrop-blur-md border border-primary/20 shadow-sm;
   }
 }

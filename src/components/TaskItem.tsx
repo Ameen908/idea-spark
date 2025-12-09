@@ -44,7 +44,7 @@ export function TaskItem({ task, onToggle, onDelete }: TaskItemProps) {
   return (
     <div
       className={cn(
-        'group flex items-center gap-4 rounded-lg border bg-card p-4 transition-all duration-300 ease-out hover:shadow-md hover:-translate-y-0.5',
+        'group flex items-center gap-4 rounded-2xl glass p-4 transition-all duration-500 ease-out hover:shadow-xl hover:-translate-y-1 hover:scale-[1.01]',
         task.completed && 'opacity-60',
         overdue && 'border-destructive/50 bg-destructive/5'
       )}
@@ -81,7 +81,7 @@ export function TaskItem({ task, onToggle, onDelete }: TaskItemProps) {
       
       <span
         className={cn(
-          'rounded-full border px-2.5 py-0.5 text-xs font-medium',
+          'rounded-xl glass-pill px-3 py-1 text-xs font-medium transition-all duration-300 hover:scale-105',
           categoryInfo?.color
         )}
       >
@@ -90,7 +90,7 @@ export function TaskItem({ task, onToggle, onDelete }: TaskItemProps) {
       
       <span
         className={cn(
-          'rounded-full border px-2.5 py-0.5 text-xs font-medium',
+          'rounded-xl glass-pill px-3 py-1 text-xs font-medium transition-all duration-300 hover:scale-105',
           priorityColors[task.priority]
         )}
       >

@@ -1,5 +1,4 @@
 import { Category, CATEGORIES } from '@/types/task';
-import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
 interface CategoryFilterProps {
@@ -10,25 +9,32 @@ interface CategoryFilterProps {
 
 export function CategoryFilter({ selected, onChange, counts }: CategoryFilterProps) {
   return (
-    <div className="flex flex-wrap gap-2">
-      <Button
-        variant={selected === 'all' ? 'default' : 'outline'}
-        size="sm"
+    <div className="flex flex-wrap gap-2 p-2 rounded-2xl glass-subtle">
+      <button
         onClick={() => onChange('all')}
-        className="text-xs"
+        className={cn(
+          'px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 ease-out',
+          selected === 'all'
+            ? 'glass-strong text-primary shadow-lg scale-105'
+            : 'hover:glass-pill hover:scale-102 text-muted-foreground hover:text-foreground'
+        )}
       >
         All ({counts.all})
-      </Button>
-      {CATEGORIES.map((cat) => (
-        <Button
+      </button>
+      {CATEGORIES.map((cat, index) => (
+        <button
           key={cat.value}
-          variant={selected === cat.value ? 'default' : 'outline'}
-          size="sm"
           onClick={() => onChange(cat.value)}
-          className={cn('text-xs', selected !== cat.value && cat.color)}
+          className={cn(
+            'px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 ease-out',
+            selected === cat.value
+              ? 'glass-strong text-primary shadow-lg scale-105'
+              : 'hover:glass-pill hover:scale-102 text-muted-foreground hover:text-foreground'
+          )}
+          style={{ animationDelay: `${index * 50}ms` }}
         >
           {cat.label} ({counts[cat.value]})
-        </Button>
+        </button>
       ))}
     </div>
   );
