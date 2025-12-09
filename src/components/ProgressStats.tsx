@@ -21,45 +21,53 @@ export function ProgressStats({ tasks }: ProgressStatsProps) {
   }).length;
 
   return (
-    <div className="rounded-xl border bg-card p-6 space-y-4 animate-fade-in">
+    <div className="rounded-2xl glass p-6 space-y-4 animate-blur-in">
       <div className="flex items-center justify-between">
         <h3 className="font-semibold text-card-foreground">Today's Progress</h3>
-        <span className="text-2xl font-bold text-primary">{percentage}%</span>
+        <span className="text-2xl font-bold text-primary animate-float">{percentage}%</span>
       </div>
       
       <Progress value={percentage} className="h-2" />
       
-      <div className="grid grid-cols-2 gap-4 pt-2">
-        <div className="text-center">
+      <div className="grid grid-cols-4 gap-3 pt-2">
+        <div className="text-center p-3 rounded-xl glass-subtle hover:scale-105 transition-transform duration-300">
           <div className="flex items-center justify-center gap-1 text-muted-foreground">
-            <Circle className="h-4 w-4" />
-            <span className="text-sm">Total</span>
+            <div className="p-1.5 rounded-lg glass-icon">
+              <Circle className="h-3.5 w-3.5 text-primary" />
+            </div>
           </div>
-          <p className="text-xl font-semibold text-card-foreground">{total}</p>
+          <p className="text-lg font-semibold text-card-foreground mt-1">{total}</p>
+          <span className="text-xs text-muted-foreground">Total</span>
         </div>
         
-        <div className="text-center">
+        <div className="text-center p-3 rounded-xl glass-subtle hover:scale-105 transition-transform duration-300">
           <div className="flex items-center justify-center gap-1 text-primary">
-            <CheckCircle2 className="h-4 w-4" />
-            <span className="text-sm">Done</span>
+            <div className="p-1.5 rounded-lg glass-icon">
+              <CheckCircle2 className="h-3.5 w-3.5 text-primary" />
+            </div>
           </div>
-          <p className="text-xl font-semibold text-card-foreground">{completed}</p>
+          <p className="text-lg font-semibold text-card-foreground mt-1">{completed}</p>
+          <span className="text-xs text-muted-foreground">Done</span>
         </div>
         
-        <div className="text-center">
+        <div className="text-center p-3 rounded-xl glass-subtle hover:scale-105 transition-transform duration-300">
           <div className="flex items-center justify-center gap-1 text-destructive">
-            <Flame className="h-4 w-4" />
-            <span className="text-sm">Urgent</span>
+            <div className="p-1.5 rounded-lg bg-destructive/10 backdrop-blur-md border border-destructive/20">
+              <Flame className="h-3.5 w-3.5 text-destructive" />
+            </div>
           </div>
-          <p className="text-xl font-semibold text-card-foreground">{highPriority}</p>
+          <p className="text-lg font-semibold text-card-foreground mt-1">{highPriority}</p>
+          <span className="text-xs text-muted-foreground">Urgent</span>
         </div>
 
-        <div className="text-center">
+        <div className="text-center p-3 rounded-xl glass-subtle hover:scale-105 transition-transform duration-300">
           <div className="flex items-center justify-center gap-1 text-destructive">
-            <AlertTriangle className="h-4 w-4" />
-            <span className="text-sm">Overdue</span>
+            <div className="p-1.5 rounded-lg bg-destructive/10 backdrop-blur-md border border-destructive/20">
+              <AlertTriangle className="h-3.5 w-3.5 text-destructive" />
+            </div>
           </div>
-          <p className="text-xl font-semibold text-card-foreground">{overdue}</p>
+          <p className="text-lg font-semibold text-card-foreground mt-1">{overdue}</p>
+          <span className="text-xs text-muted-foreground">Overdue</span>
         </div>
       </div>
     </div>
