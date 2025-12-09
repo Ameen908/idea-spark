@@ -44,7 +44,7 @@ export function TaskItem({ task, onToggle, onDelete }: TaskItemProps) {
   return (
     <div
       className={cn(
-        'group flex items-center gap-4 rounded-lg border bg-card p-4 transition-all duration-200 hover:shadow-md',
+        'group flex items-center gap-4 rounded-lg border bg-card p-4 transition-all duration-300 ease-out hover:shadow-md hover:-translate-y-0.5',
         task.completed && 'opacity-60',
         overdue && 'border-destructive/50 bg-destructive/5'
       )}
@@ -101,7 +101,7 @@ export function TaskItem({ task, onToggle, onDelete }: TaskItemProps) {
         variant="ghost"
         size="icon"
         onClick={() => onDelete(task.id)}
-        className="opacity-0 group-hover:opacity-100 transition-opacity text-muted-foreground hover:text-destructive"
+        className="opacity-0 group-hover:opacity-100 transition-all duration-300 text-muted-foreground hover:text-destructive hover:scale-110"
       >
         <Trash2 className="h-4 w-4" />
       </Button>

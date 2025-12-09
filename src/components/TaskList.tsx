@@ -11,7 +11,7 @@ interface TaskListProps {
 export function TaskList({ tasks, onToggle, onDelete }: TaskListProps) {
   if (tasks.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center py-16 text-muted-foreground">
+      <div className="flex flex-col items-center justify-center py-16 text-muted-foreground animate-fade-in">
         <ClipboardList className="h-12 w-12 mb-4 opacity-50" />
         <p className="text-lg font-medium">No tasks yet</p>
         <p className="text-sm">Add your first task to get started</p>
@@ -21,13 +21,18 @@ export function TaskList({ tasks, onToggle, onDelete }: TaskListProps) {
 
   return (
     <div className="space-y-3">
-      {tasks.map((task) => (
-        <TaskItem
+      {tasks.map((task, index) => (
+        <div
           key={task.id}
-          task={task}
-          onToggle={onToggle}
-          onDelete={onDelete}
-        />
+          className="animate-slide-up"
+          style={{ animationDelay: `${index * 50}ms`, animationFillMode: 'backwards' }}
+        >
+          <TaskItem
+            task={task}
+            onToggle={onToggle}
+            onDelete={onDelete}
+          />
+        </div>
       ))}
     </div>
   );

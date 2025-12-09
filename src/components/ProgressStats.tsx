@@ -21,7 +21,7 @@ export function ProgressStats({ tasks }: ProgressStatsProps) {
   }).length;
 
   return (
-    <div className="rounded-xl border bg-card p-6 space-y-4">
+    <div className="rounded-xl border bg-card p-6 space-y-4 animate-fade-in">
       <div className="flex items-center justify-between">
         <h3 className="font-semibold text-card-foreground">Today's Progress</h3>
         <span className="text-2xl font-bold text-primary">{percentage}%</span>
