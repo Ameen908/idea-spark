@@ -154,7 +154,28 @@ All colors MUST be HSL.
     @apply border-border;
   }
 
+  html {
+    @apply scroll-smooth;
+  }
+
   body {
     @apply bg-background text-foreground;
+  }
+
+  /* Smooth theme transitions */
+  *,
+  *::before,
+  *::after {
+    transition-property: background-color, border-color, color, fill, stroke, box-shadow;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 200ms;
+  }
+
+  /* Disable theme transitions on elements with explicit transitions */
+  .no-theme-transition,
+  .no-theme-transition *,
+  [data-radix-popper-content-wrapper],
+  [data-radix-popper-content-wrapper] * {
+    transition-property: none !important;
   }
 }
