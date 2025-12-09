@@ -74,20 +74,14 @@ const Index = () => {
           </p>
         </header>
 
-        <div className="grid gap-6 lg:grid-cols-3">
-          {/* Main Content */}
-          <div className="lg:col-span-2 space-y-6">
-            <AddTaskForm onAdd={addTask} />
-            
-            <CategoryFilter selected={selectedCategory} onChange={setSelectedCategory} counts={categoryCounts} />
-            
-            <TaskList tasks={filteredTasks} onToggle={toggleTask} onDelete={deleteTask} />
-          </div>
-
-          {/* Sidebar */}
-          <div className="lg:col-span-1">
-            <ProgressStats tasks={tasks} />
-          </div>
+        <div className="space-y-6">
+          <ProgressStats tasks={tasks} />
+          
+          <AddTaskForm onAdd={addTask} />
+          
+          <CategoryFilter selected={selectedCategory} onChange={setSelectedCategory} counts={categoryCounts} />
+          
+          <TaskList tasks={filteredTasks} onToggle={toggleTask} onDelete={deleteTask} />
         </div>
       </div>
     </div>;
