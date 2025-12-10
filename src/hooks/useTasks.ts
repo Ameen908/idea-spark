@@ -121,5 +121,26 @@ export function useTasks() {
     }
   };
 
-  return { tasks, loading, addTask, toggleTask, deleteTask };
+  const updateTask = async (id: string, title: string) => {
+    const { error } = await supabase
+      .from('tasks')
+      .update({ title })
+      .eq('id', id);
+
+    if (error) {
+      toast({
+        variant: 'destructive',
+        title: 'Failed to update task',
+        description: error.message,
+      });
+      return false;
+    } else {
+      setTasks((prev) =>
+        prev.map((t) => (t.id === id ? { ...t, title } : t))
+      );
+      return true;
+    }
+  };
+
+  return { tasks, loading, addTask, toggleTask, deleteTask, updateTask };
 }

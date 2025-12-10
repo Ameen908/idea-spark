@@ -6,9 +6,10 @@ interface TaskListProps {
   tasks: Task[];
   onToggle: (id: string) => void;
   onDelete: (id: string) => void;
+  onUpdate: (id: string, title: string) => Promise<boolean>;
 }
 
-export function TaskList({ tasks, onToggle, onDelete }: TaskListProps) {
+export function TaskList({ tasks, onToggle, onDelete, onUpdate }: TaskListProps) {
   if (tasks.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-16 text-muted-foreground animate-fade-in">
@@ -31,6 +32,7 @@ export function TaskList({ tasks, onToggle, onDelete }: TaskListProps) {
             task={task}
             onToggle={onToggle}
             onDelete={onDelete}
+            onUpdate={onUpdate}
           />
         </div>
       ))}

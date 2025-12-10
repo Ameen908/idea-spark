@@ -1,14 +1,17 @@
+import { useState, useRef, useEffect } from 'react';
 import { format, isToday, isTomorrow, isPast, isYesterday } from 'date-fns';
 import { Task, Priority, CATEGORIES } from '@/types/task';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Button } from '@/components/ui/button';
-import { Trash2, Calendar, AlertCircle } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Trash2, Calendar, AlertCircle, Pencil, Check, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface TaskItemProps {
   task: Task;
   onToggle: (id: string) => void;
   onDelete: (id: string) => void;
+  onUpdate: (id: string, title: string) => Promise<boolean>;
 }
 
 const priorityColors: Record<Priority, string> = {
@@ -37,9 +40,44 @@ function isOverdue(date: Date, completed: boolean): boolean {
   return isPast(date) && date < today;
 }
 
-export function TaskItem({ task, onToggle, onDelete }: TaskItemProps) {
+export function TaskItem({ task, onToggle, onDelete, onUpdate }: TaskItemProps) {
+  const [isEditing, setIsEditing] = useState(false);
+  const [editValue, setEditValue] = useState(task.title);
+  const inputRef = useRef<HTMLInputElement>(null);
   const categoryInfo = CATEGORIES.find((c) => c.value === task.category);
   const overdue = task.dueDate ? isOverdue(task.dueDate, task.completed) : false;
+
+  useEffect(() => {
+    if (isEditing && inputRef.current) {
+      inputRef.current.focus();
+      inputRef.current.select();
+    }
+  }, [isEditing]);
+
+  const handleSave = async () => {
+    if (editValue.trim() && editValue !== task.title) {
+      const success = await onUpdate(task.id, editValue.trim());
+      if (success) {
+        setIsEditing(false);
+      }
+    } else {
+      setEditValue(task.title);
+      setIsEditing(false);
+    }
+  };
+
+  const handleCancel = () => {
+    setEditValue(task.title);
+    setIsEditing(false);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleSave();
+    } else if (e.key === 'Escape') {
+      handleCancel();
+    }
+  };
 
   return (
     <div
@@ -56,15 +94,45 @@ export function TaskItem({ task, onToggle, onDelete }: TaskItemProps) {
       />
       
       <div className="flex-1 min-w-0">
-        <p
-          className={cn(
-            'font-medium text-card-foreground transition-all',
-            task.completed && 'line-through text-muted-foreground'
-          )}
-        >
-          {task.title}
-        </p>
-        {task.dueDate && (
+        {isEditing ? (
+          <div className="flex items-center gap-2">
+            <Input
+              ref={inputRef}
+              value={editValue}
+              onChange={(e) => setEditValue(e.target.value)}
+              onKeyDown={handleKeyDown}
+              onBlur={handleSave}
+              className="h-8 glass-subtle border-primary/30 focus:border-primary"
+            />
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={handleSave}
+              className="h-7 w-7 text-primary hover:bg-primary/10"
+            >
+              <Check className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={handleCancel}
+              className="h-7 w-7 text-muted-foreground hover:bg-destructive/10 hover:text-destructive"
+            >
+              <X className="h-4 w-4" />
+            </Button>
+          </div>
+        ) : (
+          <p
+            onDoubleClick={() => !task.completed && setIsEditing(true)}
+            className={cn(
+              'font-medium text-card-foreground transition-all cursor-pointer',
+              task.completed && 'line-through text-muted-foreground cursor-default'
+            )}
+          >
+            {task.title}
+          </p>
+        )}
+        {task.dueDate && !isEditing && (
           <div className={cn(
             'flex items-center gap-1 mt-1 text-xs',
             overdue ? 'text-destructive' : 'text-muted-foreground'
@@ -78,6 +146,17 @@ export function TaskItem({ task, onToggle, onDelete }: TaskItemProps) {
           </div>
         )}
       </div>
+      
+      {!isEditing && (
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => setIsEditing(true)}
+          className="opacity-0 group-hover:opacity-100 transition-all duration-300 text-muted-foreground hover:text-primary hover:scale-110"
+        >
+          <Pencil className="h-4 w-4" />
+        </Button>
+      )}
       
       <span
         className={cn(

@@ -94,6 +94,10 @@ All colors MUST be HSL.
     --tracking-normal: 0em;
 
     --spacing: 0.25rem;
+
+    --gradient-start: 209 40% 96%;
+    --gradient-mid: 200 60% 94%;
+    --gradient-end: 210 50% 92%;
   }
 
   .dark {
@@ -146,6 +150,10 @@ All colors MUST be HSL.
     --shadow-lg: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 4px 6px -1px hsl(0 0% 0% / 0.1);
     --shadow-xl: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 8px 10px -1px hsl(0 0% 0% / 0.1);
     --shadow-2xl: 0 1px 3px 0px hsl(0 0% 0% / 0.25);
+
+    --gradient-start: 222 47% 11%;
+    --gradient-mid: 217 40% 14%;
+    --gradient-end: 215 35% 18%;
   }
 }
 
@@ -159,7 +167,15 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply text-foreground;
+    background: linear-gradient(
+      135deg,
+      hsl(var(--gradient-start)) 0%,
+      hsl(var(--gradient-mid)) 50%,
+      hsl(var(--gradient-end)) 100%
+    );
+    background-attachment: fixed;
+    min-height: 100vh;
   }
 
   /* Smooth theme transitions */
