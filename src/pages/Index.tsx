@@ -16,7 +16,8 @@ const Index = () => {
     loading,
     addTask,
     toggleTask,
-    deleteTask
+    deleteTask,
+    updateTask
   } = useTasks();
   const {
     user,
@@ -87,7 +88,7 @@ const Index = () => {
           
           <CategoryFilter selected={selectedCategory} onChange={setSelectedCategory} counts={categoryCounts} />
           
-          <TaskList tasks={filteredTasks} onToggle={toggleTask} onDelete={deleteTask} />
+          <TaskList tasks={filteredTasks} onToggle={toggleTask} onDelete={deleteTask} onUpdate={updateTask} />
         </div>
       </div>
     </div>;
