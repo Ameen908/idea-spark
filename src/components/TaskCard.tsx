@@ -82,7 +82,7 @@ export function TaskCard({ task, onToggle, onDelete, onUpdate }: TaskCardProps) 
   return (
     <div
       className={cn(
-        'group glass rounded-2xl p-4 transition-all duration-500 ease-out hover:shadow-xl hover:-translate-y-1 hover:scale-[1.02] flex flex-col h-full min-h-[160px]',
+        'group glass rounded-2xl p-4 flex flex-col h-full min-h-[160px]',
         task.completed && 'opacity-60',
         overdue && 'border-destructive/50 bg-destructive/5'
       )}
@@ -94,13 +94,13 @@ export function TaskCard({ task, onToggle, onDelete, onUpdate }: TaskCardProps) 
           onCheckedChange={() => onToggle(task.id)}
           className="h-5 w-5 mt-0.5"
         />
-        <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-all duration-300">
+        <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
           {!isEditing && (
             <Button
               variant="ghost"
               size="icon"
               onClick={() => setIsEditing(true)}
-              className="h-7 w-7 text-muted-foreground hover:text-primary hover:scale-110 transition-all"
+              className="h-7 w-7 text-muted-foreground hover:text-primary"
             >
               <Pencil className="h-3.5 w-3.5" />
             </Button>
@@ -109,7 +109,7 @@ export function TaskCard({ task, onToggle, onDelete, onUpdate }: TaskCardProps) 
             variant="ghost"
             size="icon"
             onClick={() => onDelete(task.id)}
-            className="h-7 w-7 text-muted-foreground hover:text-destructive hover:scale-110 transition-all"
+            className="h-7 w-7 text-muted-foreground hover:text-destructive"
           >
             <Trash2 className="h-3.5 w-3.5" />
           </Button>
@@ -179,7 +179,7 @@ export function TaskCard({ task, onToggle, onDelete, onUpdate }: TaskCardProps) 
         
         <span
           className={cn(
-            'glass-pill rounded-lg px-2 py-1 text-xs font-medium transition-all duration-300',
+            'glass-pill rounded-lg px-2 py-1 text-xs font-medium',
             categoryInfo?.color
           )}
         >
@@ -188,7 +188,7 @@ export function TaskCard({ task, onToggle, onDelete, onUpdate }: TaskCardProps) 
         
         <span
           className={cn(
-            'glass-pill rounded-lg px-2 py-1 text-xs font-medium transition-all duration-300',
+            'glass-pill rounded-lg px-2 py-1 text-xs font-medium',
             priorityColors[task.priority]
           )}
         >

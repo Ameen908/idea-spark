@@ -51,7 +51,7 @@ const Index = () => {
   }, [tasks]);
   if (authLoading || loading) {
     return <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="p-4 rounded-2xl glass animate-glow-pulse">
+        <div className="p-4 rounded-2xl glass">
           <Loader2 className="h-8 w-8 animate-spin text-primary" />
         </div>
       </div>;
@@ -60,10 +60,10 @@ const Index = () => {
   return <div className="min-h-screen bg-background">
       <div className="container max-w-4xl py-8 px-4">
         {/* Header */}
-        <header className="mb-8 animate-slide-down">
+        <header className="mb-8">
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-3">
-              <div className="rounded-2xl glass-icon p-2.5 animate-float">
+              <div className="rounded-2xl glass-icon p-2.5">
                 <CheckSquare className="h-6 w-6 text-primary" />
               </div>
               <h1 className="text-3xl font-bold text-foreground">Maestro TaskFlow</h1>
@@ -72,7 +72,7 @@ const Index = () => {
               variant="ghost"
               size="icon"
               onClick={() => navigate('/settings')}
-              className="glass-icon rounded-xl hover:scale-105 transition-transform"
+              className="glass-icon rounded-xl"
             >
               <Settings className="h-5 w-5" />
             </Button>

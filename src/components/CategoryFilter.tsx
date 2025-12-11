@@ -13,25 +13,24 @@ export function CategoryFilter({ selected, onChange, counts }: CategoryFilterPro
       <button
         onClick={() => onChange('all')}
         className={cn(
-          'px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 ease-out',
+          'px-4 py-2 rounded-xl text-sm font-medium',
           selected === 'all'
-            ? 'glass-strong text-primary shadow-lg scale-105'
-            : 'hover:glass-pill hover:scale-102 text-muted-foreground hover:text-foreground'
+            ? 'glass-strong text-primary'
+            : 'text-muted-foreground hover:text-foreground'
         )}
       >
         All ({counts.all})
       </button>
-      {CATEGORIES.map((cat, index) => (
+      {CATEGORIES.map((cat) => (
         <button
           key={cat.value}
           onClick={() => onChange(cat.value)}
           className={cn(
-            'px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 ease-out',
+            'px-4 py-2 rounded-xl text-sm font-medium',
             selected === cat.value
-              ? 'glass-strong text-primary shadow-lg scale-105'
-              : 'hover:glass-pill hover:scale-102 text-muted-foreground hover:text-foreground'
+              ? 'glass-strong text-primary'
+              : 'text-muted-foreground hover:text-foreground'
           )}
-          style={{ animationDelay: `${index * 50}ms` }}
         >
           {cat.label} ({counts[cat.value]})
         </button>
