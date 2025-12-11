@@ -1,14 +1,18 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { Task, Priority, Category } from '@/types/task';
 import { useToast } from '@/hooks/use-toast';
+import { useNotificationSound } from './useNotificationSound';
+import { useSettings } from './useSettings';
 
 export function useTasks() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
   const { user } = useAuth();
   const { toast } = useToast();
+  const { playSound } = useNotificationSound();
+  const { settings } = useSettings();
 
   // Fetch tasks from database
   useEffect(() => {
@@ -101,11 +105,19 @@ export function useTasks() {
         description: error.message,
       });
     } else {
+      // Play sound when completing a task
+      if (!task.completed) {
+        playSound(settings.completionSound);
+      }
       setTasks((prev) =>
         prev.map((t) => (t.id === id ? { ...t, completed: !t.completed } : t))
       );
     }
   };
+
+  const reorderTasks = useCallback((reorderedTasks: Task[]) => {
+    setTasks(reorderedTasks);
+  }, []);
 
   const deleteTask = async (id: string) => {
     const { error } = await supabase.from('tasks').delete().eq('id', id);
@@ -142,5 +154,5 @@ export function useTasks() {
     }
   };
 
-  return { tasks, loading, addTask, toggleTask, deleteTask, updateTask };
+  return { tasks, loading, addTask, toggleTask, deleteTask, updateTask, reorderTasks };
 }

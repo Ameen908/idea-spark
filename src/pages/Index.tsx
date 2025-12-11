@@ -16,7 +16,8 @@ const Index = () => {
     addTask,
     toggleTask,
     deleteTask,
-    updateTask
+    updateTask,
+    reorderTasks
   } = useTasks();
   const {
     user,
@@ -88,7 +89,7 @@ const Index = () => {
           
           <CategoryFilter selected={selectedCategory} onChange={setSelectedCategory} counts={categoryCounts} />
           
-          <TaskGrid tasks={filteredTasks} onToggle={toggleTask} onDelete={deleteTask} onUpdate={updateTask} />
+          <TaskGrid tasks={filteredTasks} onToggle={toggleTask} onDelete={deleteTask} onUpdate={updateTask} onReorder={reorderTasks} />
         </div>
       </div>
     </div>;

@@ -2,11 +2,21 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, LogOut, Moon, User } from 'lucide-react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { ArrowLeft, LogOut, Moon, User, Volume2, Bell } from 'lucide-react';
+import { useSettings } from '@/hooks/useSettings';
+import { useNotificationSound, SOUND_OPTIONS, SoundType } from '@/hooks/useNotificationSound';
 
 const Settings = () => {
   const { user, signOut } = useAuth();
   const navigate = useNavigate();
+  const { settings, updateSetting } = useSettings();
+  const { playSound } = useNotificationSound();
+
+  const handleSoundChange = (key: 'completionSound' | 'reminderSound', value: SoundType) => {
+    updateSetting(key, value);
+    playSound(value);
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -56,8 +66,68 @@ const Settings = () => {
             </div>
           </div>
 
-          {/* Sign Out */}
+          {/* Completion Sound */}
           <div className="glass rounded-2xl p-5 animate-fade-in" style={{ animationDelay: '150ms' }}>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <div className="glass-icon rounded-xl p-3">
+                  <Volume2 className="h-6 w-6 text-primary" />
+                </div>
+                <div>
+                  <p className="font-medium text-foreground">Completion Sound</p>
+                  <p className="text-sm text-muted-foreground">Play when task is completed</p>
+                </div>
+              </div>
+              <Select
+                value={settings.completionSound}
+                onValueChange={(value: SoundType) => handleSoundChange('completionSound', value)}
+              >
+                <SelectTrigger className="w-32 glass-subtle">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {SOUND_OPTIONS.map((option) => (
+                    <SelectItem key={option.value} value={option.value}>
+                      {option.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+
+          {/* Reminder Sound */}
+          <div className="glass rounded-2xl p-5 animate-fade-in" style={{ animationDelay: '200ms' }}>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <div className="glass-icon rounded-xl p-3">
+                  <Bell className="h-6 w-6 text-primary" />
+                </div>
+                <div>
+                  <p className="font-medium text-foreground">Reminder Sound</p>
+                  <p className="text-sm text-muted-foreground">Play for task reminders</p>
+                </div>
+              </div>
+              <Select
+                value={settings.reminderSound}
+                onValueChange={(value: SoundType) => handleSoundChange('reminderSound', value)}
+              >
+                <SelectTrigger className="w-32 glass-subtle">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {SOUND_OPTIONS.map((option) => (
+                    <SelectItem key={option.value} value={option.value}>
+                      {option.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+
+          {/* Sign Out */}
+          <div className="glass rounded-2xl p-5 animate-fade-in" style={{ animationDelay: '250ms' }}>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
                 <div className="glass-icon rounded-xl p-3">
