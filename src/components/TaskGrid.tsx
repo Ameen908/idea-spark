@@ -64,7 +64,7 @@ export function TaskGrid({ tasks, onToggle, onDelete, onUpdate, onReorder }: Tas
 
   if (tasks.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center py-16 text-muted-foreground animate-fade-in">
+      <div className="flex flex-col items-center justify-center py-16 text-muted-foreground">
         <div className="glass-icon rounded-2xl p-4 mb-4">
           <ClipboardList className="h-12 w-12 opacity-50" />
         </div>
@@ -86,19 +86,14 @@ export function TaskGrid({ tasks, onToggle, onDelete, onUpdate, onReorder }: Tas
       >
         <SortableContext items={incompleteTasks.map((t) => t.id)} strategy={rectSortingStrategy}>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {incompleteTasks.map((task, index) => (
-              <div
+            {incompleteTasks.map((task) => (
+              <SortableTaskCard
                 key={task.id}
-                className="animate-scale-in"
-                style={{ animationDelay: `${index * 50}ms`, animationFillMode: 'backwards' }}
-              >
-                <SortableTaskCard
-                  task={task}
-                  onToggle={onToggle}
-                  onDelete={onDelete}
-                  onUpdate={onUpdate}
-                />
-              </div>
+                task={task}
+                onToggle={onToggle}
+                onDelete={onDelete}
+                onUpdate={onUpdate}
+              />
             ))}
           </div>
         </SortableContext>
@@ -115,14 +110,13 @@ export function TaskGrid({ tasks, onToggle, onDelete, onUpdate, onReorder }: Tas
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {completedTasks.map((task) => (
-              <div key={task.id} className="animate-fade-in">
-                <SortableTaskCard
-                  task={task}
-                  onToggle={onToggle}
-                  onDelete={onDelete}
-                  onUpdate={onUpdate}
-                />
-              </div>
+              <SortableTaskCard
+                key={task.id}
+                task={task}
+                onToggle={onToggle}
+                onDelete={onDelete}
+                onUpdate={onUpdate}
+              />
             ))}
           </div>
         </div>

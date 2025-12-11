@@ -39,12 +39,12 @@ export function AddTaskForm({ onAdd }: AddTaskFormProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-wrap gap-3 p-4 rounded-2xl glass animate-fade-in">
+    <form onSubmit={handleSubmit} className="flex flex-wrap gap-3 p-4 rounded-2xl glass">
       <Input
         placeholder="Add a new task..."
         value={title}
         onChange={(e) => setTitle(e.target.value)}
-        className="flex-1 min-w-[200px] rounded-xl bg-background/50 backdrop-blur-sm border-border/50 focus:bg-background/80 transition-all duration-300"
+        className="flex-1 min-w-[200px] rounded-xl bg-background/50 border-border/50"
       />
       
       <Select value={category} onValueChange={(v) => setCategory(v as Category)}>
@@ -77,7 +77,7 @@ export function AddTaskForm({ onAdd }: AddTaskFormProps) {
             type="button"
             variant="outline"
             className={cn(
-              'w-36 justify-start text-left font-normal rounded-xl glass-pill border-border/50 hover:scale-102 transition-all duration-300',
+              'w-36 justify-start text-left font-normal rounded-xl glass-pill border-border/50',
               !dueDate && 'text-muted-foreground'
             )}
           >
@@ -96,7 +96,7 @@ export function AddTaskForm({ onAdd }: AddTaskFormProps) {
         </PopoverContent>
       </Popover>
       
-      <Button type="submit" disabled={!title.trim()} className="rounded-xl hover:scale-105 transition-all duration-300">
+      <Button type="submit" disabled={!title.trim()} className="rounded-xl">
         <Plus className="h-4 w-4 mr-2" />
         Add
       </Button>
